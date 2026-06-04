@@ -301,9 +301,10 @@
 
   <div class="hero">
     <div class="hero-frame">
-      <video controls playsinline preload="none" poster="yang_poster_sm.webp">
+      <video id="mainVideo" controls playsinline preload="metadata" poster="yang_poster_sm.webp">
         <source src="yang_video_small.mp4" type="video/mp4">
       </video>
+      <div id="playHint" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,.5);color:#fff;padding:12px 24px;border-radius:30px;font-size:15px;cursor:pointer;backdrop-filter:blur(6px);display:none;z-index:2;" onclick="document.getElementById('mainVideo').play();this.style.display='none'">🔊 点击播放带声音</div>
     </div>
   </div>
 
@@ -351,6 +352,14 @@ function openLightbox(src) {
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('active');
 }
+/* 移动端显示播放提示 */
+document.addEventListener("DOMContentLoaded",function(){
+  var v=document.getElementById("mainVideo");
+  var h=document.getElementById("playHint");
+  if(v&&h){v.addEventListener("playing",function(){h.style.display="none"});
+  v.addEventListener("pause",function(){if(!v.ended)h.style.display="block"});
+  if(v.paused)h.style.display="block";}
+});
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 
